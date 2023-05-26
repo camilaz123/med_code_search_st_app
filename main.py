@@ -8,7 +8,7 @@ try:
 
 # This block executes only on the first run when your package isn't installed
 except ModuleNotFoundError as e:
-    sleep_time = 30
+    sleep_time = 120
     dependency_warning = st.warning(
         f"Installing dependencies, this takes {sleep_time} seconds."
     )
