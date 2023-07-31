@@ -9,7 +9,7 @@ def install_and_import():
         importlib.import_module("med_code_search")
     except ImportError:
         # Install the module if not already installed
-        subprocess.check_call([sys.executable, "-m", "pyen", "exec", "pip", "install", f"git+https://{st.secrets['github_token']}@github.com/almeidava93/med_code_search.git"])
+        subprocess.check_call(["python3", "-m", "pip", "install", f"git+https://{st.secrets['github_token']}@github.com/almeidava93/med_code_search.git"])
     finally:
         # If the module is installed, import it
         if importlib.util.find_spec("med_code_search") is not None:
