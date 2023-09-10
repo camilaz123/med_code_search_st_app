@@ -128,4 +128,3 @@ win32-setctime==1.1.0
 yarl==1.9.2
 zipp==3.15.0
 zope.interface==6.0
-git+https://almeidava93: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@github.com/almeidava93/med_code_search.git
