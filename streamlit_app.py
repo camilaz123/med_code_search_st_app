@@ -1,42 +1,36 @@
 import subprocess
 import sys
-import logging
+import time
 import streamlit as st
+import logging
 
-# Initialize logging
+
 logging.basicConfig(level=logging.INFO)
 
-# Define the GitHub token and repository URL
-GITHUB_TOKEN = st.secrets["github_token"]
-REPO_URL = "github.com/almeidava93/med_code_search"
 
-# Install the package
 try:
+    import med_code_search
+
+# This block executes only on the first run when your package isn't installed
+except ModuleNotFoundError as e:
     logging.info("Attempting to install med_code_search package.")
-    subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--user",
-            f"git+https://{GITHUB_TOKEN}@{REPO_URL}.git"
-        ],
-        check=True,
+    sleep_time = 30
+    dependency_warning = st.warning(
+        f"Installing dependencies, this takes {sleep_time} seconds."
     )
-    logging.info("Successfully installed med_code_search package.")
-except subprocess.CalledProcessError:
-    logging.error("Failed to install med_code_search package.")
-    sys.exit(1)
+    subprocess.Popen(
+        [
+            f"{sys.executable} -m pip install git+https://{st.secrets['github_token']}@github.com/almeidava93/med_code_search.git",
+        ],
+        shell=True,
+    )
 
-# Import and use the package
-try:
-    from med_code_search.main import app  # Replace with the actual import
-    logging.info("Successfully imported app() from med_code_search.main")
-    
-    # Use the imported function
-    app()  # Replace with the actual function call
-    logging.info("Successfully executed some_function.")
-except ImportError:
-    logging.error("Could not import the package or function.")
-    sys.exit(1)
+    # wait for subprocess to install package before running your actual code below
+    time.sleep(sleep_time)
+    # remove the installing dependency warning
+    dependency_warning.empty()
+
+import med_code_search.main as main
+logging.info("Successfully imported app() from med_code_search.main")
+
+main.app()
