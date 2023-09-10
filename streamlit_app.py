@@ -18,8 +18,8 @@ def install_and_import():
 
 install_and_import()
 
-# Here comes the code that will only run if numpy is installed.
-if 'med_code_search' in globals():
-    import med_code_search.main as main
+# # Here comes the code that will only run if numpy is installed.
+# if 'med_code_search' in globals():
+import med_code_search.main as main
 
-    main.app()
+main.app()
