@@ -1,6 +1,7 @@
 import subprocess
 import streamlit as st
 import importlib
+import time
 
 def install_and_import():
     try:
@@ -13,14 +14,16 @@ def install_and_import():
         # If the module is installed, import it
         if importlib.util.find_spec("med_code_search") is not None:
             globals()["med_code_search"] = importlib.import_module("med_code_search")
-            import med_code_search.main as main
-            main.app()
         else:
             print(f"Failed to install and import med_code_search")
 
 install_and_import()
 
-# # # Here comes the code that will only run if numpy is installed.
-# # if 'med_code_search' in globals():
-# import med_code_search.main as main
+# Here comes the code that will only run if numpy is installed.
+while 'med_code_search' not in globals():
+    time.sleep(1)
 
+if 'med_code_search' in globals():
+    import med_code_search.main as main
+
+    main.app()
