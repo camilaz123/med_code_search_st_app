@@ -3,6 +3,8 @@ import streamlit as st
 import importlib
 import time
 
+print("Starting med_code_search installation...")
+
 def install_and_import():
     try:
         # Try importing the module
@@ -13,13 +15,15 @@ def install_and_import():
     finally:
         # If the module is installed, import it
         if importlib.util.find_spec("med_code_search") is not None:
-            import med_code_search.main as main
+            pass
         else:
             print(f"Failed to install and import med_code_search")
 
 install_and_import()
 
-if importlib.util.find_spec("med_code_search") is not None:
-    import med_code_search.main as main
+while importlib.util.find_spec("med_code_search") is None:
+    continue
 
-    main.app()
+import med_code_search.main as main
+
+main.app()
