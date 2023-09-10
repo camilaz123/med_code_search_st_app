@@ -19,6 +19,7 @@ try:
             "-m",
             "pip",
             "install",
+            "--user",
             f"git+https://{GITHUB_TOKEN}@{REPO_URL}.git"
         ],
         check=True,
