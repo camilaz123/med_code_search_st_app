@@ -1,29 +1,41 @@
 import subprocess
+import sys
+import logging
 import streamlit as st
-import importlib
-import time
 
-print("Starting med_code_search installation...")
+# Initialize logging
+logging.basicConfig(level=logging.INFO)
 
-def install_and_import():
-    try:
-        # Try importing the module
-        importlib.import_module("med_code_search")
-    except ImportError:
-        # Install the module if not already installed
-        subprocess.check_call(["python3", "-m", "pip", "install", "--user", f"git+https://almeidava93:{st.secrets['github_token']}@github.com/almeidava93/med_code_search.git"])
-    finally:
-        # If the module is installed, import it
-        if importlib.util.find_spec("med_code_search") is not None:
-            pass
-        else:
-            print(f"Failed to install and import med_code_search")
+# Define the GitHub token and repository URL
+GITHUB_TOKEN = st.secrets["github_token"]
+REPO_URL = "github.com/almeidava93/med_code_search"
 
-install_and_import()
+# Install the package
+try:
+    logging.info("Attempting to install med_code_search package.")
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            f"git+https://{GITHUB_TOKEN}@{REPO_URL}.git"
+        ],
+        check=True,
+    )
+    logging.info("Successfully installed med_code_search package.")
+except subprocess.CalledProcessError:
+    logging.error("Failed to install med_code_search package.")
+    sys.exit(1)
 
-while importlib.util.find_spec("med_code_search") is None:
-    continue
-
-import med_code_search.main as main
-
-main.app()
+# Import and use the package
+try:
+    from med_code_search.main import app  # Replace with the actual import
+    logging.info("Successfully imported app() from med_code_search.main")
+    
+    # Use the imported function
+    app()  # Replace with the actual function call
+    logging.info("Successfully executed some_function.")
+except ImportError:
+    logging.error("Could not import the package or function.")
+    sys.exit(1)
