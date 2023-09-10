@@ -19,10 +19,6 @@ def install_and_import():
 
 install_and_import()
 
-# Here comes the code that will only run if numpy is installed.
-while 'med_code_search' not in globals():
-    time.sleep(1)
-
 if 'med_code_search' in globals():
     import med_code_search.main as main
 
