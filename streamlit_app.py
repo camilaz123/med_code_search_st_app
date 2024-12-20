@@ -1,3 +1,3 @@
-import med_code_search.main as main
+import streamlit as st
 
 main.app() 
